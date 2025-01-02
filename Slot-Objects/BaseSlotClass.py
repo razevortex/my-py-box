@@ -15,7 +15,7 @@ class SlotBase:
         else:
             if isinstance(slot, int) and isinstance(var, self.__types__[slot]):
                 super().__setattr__(self.__slots__[slot], var)
-            elif isinstance(var, self.__types__[self.__slots__.index(slot)]:
+            elif isinstance(var, self.__types__[self.__slots__.index(slot)]):
                 super().__setattr__(slot, var)
                             
     def __getattribute__(self, item):
