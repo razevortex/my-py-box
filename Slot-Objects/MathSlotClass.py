@@ -141,6 +141,14 @@ class MathObj(SlotBase):
             return self / self._convert(other)
         return NotImplemented
 
+    def __pow__(self, other):
+        if isinstance(other, MathObj):
+            return self.__class__(*[self.__getattribute__(slot) if not slot in other.__slots__ else self.__getattribute__(slot) ** other.__getattribute__(slot) for slot in self.__slots__])
+        elif isinstance(other, (int, float)):
+            return self.__class__(*[self.__getattribute__(slot) ** other for slot in self.__slots__])
+        elif isinstance(other, (list, tuple, dict)):
+            return self ** self._convert(other)
+        return NotImplemented
     # arythmetic inplace
 
     def __neg__(self):
