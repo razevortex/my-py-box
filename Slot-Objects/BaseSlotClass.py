@@ -50,4 +50,5 @@ class SlotBase:
         return temp
 
     def get(self, *args, default=None):
-        return [got if not got is None else default for got in [self.__getattribute__(arg) for arg in args]]
+        return [got if not got is None else default for got in [self.__getattribute__(arg) for arg in args]]i
+
