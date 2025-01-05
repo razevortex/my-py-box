@@ -1,4 +1,5 @@
 from SlotObjects.BaseSlotClass import *
+from ToolBox.print_align import *
 
 class Slot2D:
     __name__ = '2DSlot'
