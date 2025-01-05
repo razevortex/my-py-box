@@ -1,3 +1,5 @@
+from BaseSlotClass import *
+
 class Slot2D:
     __name__ = '2DSlot'
     __slots__ = ()
