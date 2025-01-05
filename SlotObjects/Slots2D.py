@@ -1,4 +1,4 @@
-from BaseSlotClass import *
+from SlotObjects.BaseSlotClass import *
 
 class Slot2D:
     __name__ = '2DSlot'
