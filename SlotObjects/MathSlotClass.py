@@ -30,13 +30,13 @@ class MathObj(SlotBase):
 
     @classmethod
     def avg_of_objs(cls, *args):
-        temp = cls.sum_objs(*[cls(*arg) for arg in args])
+        temp = cls.sum_of_objs(*[cls(*arg) for arg in args])
         return temp / len(args)
 
     @classmethod
     def avg_weigthed_objs(cls, *args):
         total_weight = sum([arg[0] for arg in args])
-        temp = cls.sum_objs(*[cls(*arg[1]) * arg[0] for arg in args])
+        temp = cls.sum_of_objs(*[cls(*arg[1]) * arg[0] for arg in args])
         return temp / total_weight
 
     def make_weighted(self, weight=1.0):
