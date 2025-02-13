@@ -53,7 +53,7 @@ class SlotBase:
         return [got if not got is None else default for got in [self.__getattribute__(arg) for arg in args]]
 
 
-class MathObj(SlotBase):
+'''class MathObj(SlotBase):
     __name__ = 'MathSlots'
     __slots__ = ()
     __default__ = ()
@@ -228,3 +228,4 @@ class MathObj(SlotBase):
     def __idiv__(self, other):
         self = self // other
         return self
+'''
