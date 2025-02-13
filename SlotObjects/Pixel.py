@@ -26,7 +26,7 @@ class Pixel4(Pixel3):
     __name__ = 'Pixel4'
     default = 0, 0, 0, 255
     
-class ColorWheel:
+class ColorWheel(object):
     def __init__(self, pos:float=.5, colors=(Pixel3(255, 0, 0), Pixel3(0, 255, 0), Pixel3(0, 0, 255))):
         self._prime_colors = colors
         self.position = pos
