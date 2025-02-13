@@ -50,7 +50,7 @@ class ColorWheel(object):
         elif self.position % self.prime_distance == 0.0:
             return self.pos_between_colors[0]
         else:
-            dist = self.prime_distance / (self.position % self.prime_distance)
+            dist = (self.position % self.prime_distance) / self.prime_distance
             temp = self.pos_between_colors[0] * (1 - dist) + self.pos_between_colors[1] * dist
             return temp if not normalized else temp.normalized
 
