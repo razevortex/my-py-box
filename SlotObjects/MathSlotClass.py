@@ -56,10 +56,6 @@ class MathObj(SlotBase):
         return sum([self.__getattribute__(slot) for slot in self.__slots__]) / len(self.__slots__)
 
     @property
-    def relative(self):
-        return [self.__getattribute__(slot) / self.max for slot in self.__slots__]
-
-    @property
     def relative_max(self):
         return [self.__getattribute__(slot) / self.max for slot in self.__slots__]
 
