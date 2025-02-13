@@ -1,3 +1,5 @@
+from SlotObjects.BaseSlotClass import *
+
 class MathObj(SlotBase):
     __name__ = 'MathSlots'
     __slots__ = ()
