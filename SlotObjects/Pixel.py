@@ -14,8 +14,7 @@ class Pixel3(MathObj):
 
     @property
     def normalized(self):
-        if self.max > 255:
-            self.__class__(*[v / self.max * 255 for v in self])
+        return self.__class__(*[v / self.max * 255 for v in self])
 
     @classmethod
     def random(cls):
