@@ -1,5 +1,5 @@
 from random import randint as rng
-from SlotObjects.BaseSlotClass import *
+from SlotObjects.MathSlotClass import *
 
 class Pixel3(MathObj):
     __slots__ = 'r', 'g', 'b'
@@ -40,7 +40,7 @@ class ColorWheel:
 
     @property
     def pos_between_colors(self):
-        a = 0.0 if self.position is 0.0 else self.position // self.prime_distance
+        a = 0.0 if self.position == 0.0 else self.position // self.prime_distance
         b = (a + 1) % len(self.prime_colors)
         return self.prime_colors[int(a)], self.prime_colors[int(b)]
 
