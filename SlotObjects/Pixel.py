@@ -1,5 +1,5 @@
 from random import randint as rng
-from SlotObjects.MathSlotClass import *
+from .MathSlotClass import *
 
 class Pixel3(MathObj):
     __slots__ = 'r', 'g', 'b'
@@ -12,6 +12,9 @@ class Pixel3(MathObj):
     def __repr__(self):
         return f'{self.__name__} => ' + '/'.join([str(item) for item in self])
 
+    def __tuple__(self):
+        return tuple([int(val) for val in self])
+    
     @property
     def normalized(self):
         return self.__class__(*[v / self.max * 255 for v in self])
