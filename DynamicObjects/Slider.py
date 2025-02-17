@@ -1,5 +1,8 @@
 from DynamicObjects.Plane import *
 
+
+		
+	
 class HorizontalSlider:
 	def __init__(self, pos, size, sliders, value):
 		self.plane = Plane(pos, size, Pixel4(0, 0, 0, 0))
