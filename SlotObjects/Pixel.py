@@ -1,5 +1,5 @@
 from random import randint as rng
-from .MathSlotClass import *
+from SlotObjects.MathSlotClass import *
 
 class Pixel3(MathObj):
     __slots__ = 'r', 'g', 'b'
@@ -24,7 +24,7 @@ class Pixel3(MathObj):
         return cls(*[rng(0, 256) for _ in cls.__slots__])
 
 class Pixel4(Pixel3):
-    __slots__ = 'a'
+    __slots__ = 'r', 'g', 'b', 'a'
     __name__ = 'Pixel4'
     default = 0, 0, 0, 255
     
@@ -75,3 +75,7 @@ class ColorWheel(object):
             while val > 1.0:
                 val -= 1
         super().__setattr__(key, val)
+
+if __name__ == '__main__':
+    t = Pixel4.random()
+    print(t, t.__tuple__())

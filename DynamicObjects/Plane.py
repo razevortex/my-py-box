@@ -86,14 +86,23 @@ class Plane:
 	def add_child(self, rel_center, rel_size, color):
 		if self.childs is None:
 			self.childs = []
-		self.childs.append(self.__class__(rel_center*self._center, rel_size*self._size, color))
-	
+		self.childs.append(self.__class__(rel_center*self._size/ 2 + self._center, rel_size*self._size, color))
+	@property
+	def color(self):
+		if self.hover:
+			return self._color * .5
+		else:
+			return self._color
+		
 	def draw(self, surface):
 		if self.hover:
-			pg.draw.rect(surface, self._color, pg.Rect(*self.to_rect))
+			print(tuple([int(c) for c in self._color]))
+			pg.draw.rect(surface, self._color.__tuple__(), pg.Rect(*self.to_rect))
 			if not self.childs is None:
 				for child in self.childs:
-					child.draw(surface)
+					temp = child._color if not child.drag else child._color / 2
+					pg.draw.rect(surface, temp.__tuple__(), pg.Rect(*child.to_rect))
+					print(child.to_rect, child._color)
 	@property
 	def center(self):
 		return AdaptingPlane.overlay.half_size + AdaptingPlane.overlay.half_size * self._center
