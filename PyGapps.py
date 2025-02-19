@@ -16,7 +16,7 @@ class PygameApp:
 		pygame.init()
 		self.title = titles
 		AdaptingPlane.setup_window(*titles)
-		self.areas = [HorizontalSlider(), ]
+		self.areas = [ValueLine(), ]
 		self.active_window = False
 		self.main_window_rect = 0, 0, 0, 0
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -72,7 +72,7 @@ class PygameApp:
 			self.screen.fill(self.background_color)
 			for area in self.areas:
 				print(area)
-				area.draw(self.screen)
+				area.draw(self.screen, 60)
 			# rect = pygame.Rect(area.to_rect)
 			# pygame.draw.rect(self.screen, area._color, rect)
 			
