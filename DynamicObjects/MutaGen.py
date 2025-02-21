@@ -1,6 +1,7 @@
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
 
+
 class MuValGen:
     __slots__ = '_gen', 'last_event', 'event_dict'
     
@@ -16,15 +17,18 @@ class MuValGen:
     
     def get_static_gen(self, value: tuple):
         value, _ = value
+        
         def gen(value):
             while True:
                 yield value
+        
         return gen(value)
     
     def set_dynamic_gen(self):
         start = self.current
         end, steps = self.event_dict.get(self.last_event)
         step = (end - start) / steps
+        
         def new_gen(start, end, steps, step):
             steps -= 1
             while steps > 0:
@@ -32,6 +36,7 @@ class MuValGen:
                 yield start
                 steps -= 1
             yield end
+        
         self._gen = self._create_generator(original_gen=new_gen(start, end, steps, step))
     
     def get_event(self, event=None):
@@ -79,13 +84,28 @@ class MuCircleGen:
         self._center = MuValGen((rel_center, frames))
         self._radius = MuValGen((rel_radius, frames))
         self._color = MuValGen((color, frames))
+    
+    def addEvent(self, event, frames, center=None, radius=None, color=None):
+        kwargs = {'_center': (center, frames), '_radius': (radius, frames), '_color': (color, frames)}
+        [self.__getattribute__(key).add_event(event, val) for key, val in kwargs.items() if val[0] is not None]
         
+    def get_event(self, event=None):
+        self._center.get_event(event)
+        self._radius.get_event(event)
+        self._color.get_event(event)
+
+    @property
+    def current(self):
+        return self._center.current, self._radius.current, self._color.current
+
+
 if __name__ == '__main__':
-    test = MuValGen((Pixel4(0, 0, 0, 0), 30), hover=(Pixel4(0, 0, 0, 255), 40), click=(Pixel4(255, 0, 0, 255), 10))
+    test = MuCircleGen(Vertex(0, 0), Vertex(.1, 0), Pixel4(0, 0, 0, 0), 30)
+    test.addEvent('hover', 20, center=Vertex(.5, .5), radius=Vertex(.5, 0), color=Pixel4(127, 127, 127, 255))
     for i in range(30):
         if i == 2:
             test.get_event('hover')
         if i == 20:
             test.get_event('click')
-        print(test.current.__tuple__())
+        print([item for item in test.current])
         
