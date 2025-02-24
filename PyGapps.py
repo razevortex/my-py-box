@@ -3,12 +3,19 @@ from pygame.locals import *
 import pygame.freetype as ttf
 from SlotObjects.Verticies import *
 from DynamicObjects.Slider import *
+from DynamicObjects.Event import *
+from DynamicObjects.MutaGen import *
+from DynamicObjects.Switch import *
 import win32api, win32com.client
 import win32con
 import win32gui
 
-test = Plane(Vertex(.0, .9), Vertex(.98, .1), (0, 0, 0, 0))
-test.add_child(Vertex(.5, 1.0), Vertex(.02, 1.0), (128, 62, 52))
+#test = MuCircleGen(Vertex(0, 0), Vertex(.1, 0), Pixel4(0, 0, 0, 64), 60)
+#test.addEvent('hover', 60, radius=Vertex(.15, 0), color=Pixel4(127, 127, 127, 255))
+
+test = SwitchMain(Vertex(0, 0), Vertex(.2, .1))
+#test = Plane(Vertex(.0, .9), Vertex(.98, .1), (0, 0, 0, 0))
+#test.add_child(Vertex(.5, 1.0), Vertex(.02, 1.0), (128, 62, 52))
 #AdaptingPlane.setup_window('VLC media player', 'Playlist')
 area = HorizontalSlider()
 class PygameApp:
@@ -16,7 +23,7 @@ class PygameApp:
 		pygame.init()
 		self.title = titles
 		AdaptingPlane.setup_window(*titles)
-		self.areas = [ValueLine(), ]
+		self.areas = [ValueLine(), test]
 		self.active_window = False
 		self.main_window_rect = 0, 0, 0, 0
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -71,8 +78,7 @@ class PygameApp:
 			AdaptingPlane._align()
 			self.screen.fill(self.background_color)
 			for area in self.areas:
-				print(area)
-				area.draw(self.screen, 60)
+				area.draw(self.screen)
 			# rect = pygame.Rect(area.to_rect)
 			# pygame.draw.rect(self.screen, area._color, rect)
 			

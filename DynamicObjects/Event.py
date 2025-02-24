@@ -1,6 +1,21 @@
 from SlotObjects.Verticies import Vertex
 import mouse as hidM
 
+class Hover:
+	name = 'hover'
+	
+class Click:
+	name = 'click'
+
+class Drag:
+	name = 'drag'
+
+class Release:
+	name = 'release'
+	
+class No:
+	name = 'none'
+	
 class MBtn(list):
 	def __init__(self, name):
 		self.name = name
@@ -9,10 +24,10 @@ class MBtn(list):
 	@property
 	def state(self):
 		if all(self):
-			return 'hold'
+			return Drag
 		elif any(self):
-			return ['click', 'release'][self[1]]
-		return 'none'
+			return [Click, Release][self[1]]
+		return No
 	
 	def update(self):
 		print('update', hidM.is_pressed(button=self.name))
