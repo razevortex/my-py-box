@@ -1,6 +1,7 @@
 from DynamicObjects.MutaGen import *
 from SlotObjects.Fetcher import FetcherObject
 
+
 class SwitchSub(MuRectGen):
 	def __init__(self, default:FetcherObject):
 		pos = .25 if default else .75
@@ -30,6 +31,8 @@ class SwitchSub(MuRectGen):
 		rect = (args[1] - args[2] / 2).__tuple__() + args[2].__tuple__()
 		pg.draw.rect(surface, args[0], pg.Rect(*rect))
 		pg.draw.rect(surface, (32, 32, 32, 255), pg.Rect(*rect), width=2)
+		
+		
 class SwitchMain:
 	__slots__ = '_center', '_size', '_sub', 'state'
 	

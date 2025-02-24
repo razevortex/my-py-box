@@ -4,6 +4,7 @@ import win32gui
 import pygame as pg
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
+from SlotObjects.Fetcher import *
 from DynamicObjects.Event import *
 
 
@@ -52,10 +53,12 @@ class window:
 		shell.SendKeys('%')
 		win32gui.SetForegroundWindow(self.id)
 
+
 class AdaptingPlane:
 	target = None
 	overlay = None
 	last_target_rect = None
+	
 	@classmethod
 	def setup_window(cls, target, overlay):
 		cls.target = window(target)
@@ -69,40 +72,25 @@ class AdaptingPlane:
 			cls.overlay.arrange(cls.target)
 			cls.overlay.push_to_forground()
 
+
 Mouse.offset = AdaptingPlane
 
-class Plane:
-	__slots__ = '_center', '_size', '_color', 'childs', 'pending', 'visible'
-	def __init__(self, rel_center, rel_size, color):
+
+class ReferencePlane:
+	__slots__ = '_center', '_size', 'related', 'active'
+
+	def __init__(self, rel_center, rel_size, related=None, active=True):
 		self._center = rel_center
 		self._size = rel_size
-		self._color = color
-		self.visible = True
-		self.childs = None
-	
+		self.related = self.fetch_ref(related)
+		self.active = active
+
+	def fetch_ref(self, related):
+		return None if related is None else FetchRef(related)
+		
 	def __repr__(self):
 		return f'hover:{self.hover}, click:{self.click}, drag:{self.drag}\n{self.center - self.size / 2}, {Mouse.position}, {self.center + self.size / 2}'
-	
-	def add_child(self, rel_center, rel_size, color):
-		if self.childs is None:
-			self.childs = []
-		self.childs.append(self.__class__(rel_center*self._size/ 2 + self._center, rel_size*self._size, color))
-	@property
-	def color(self):
-		if self.hover:
-			return self._color * .5
-		else:
-			return self._color
-		
-	def draw(self, surface):
-		if self.hover:
-			print(tuple([int(c) for c in self._color]))
-			pg.draw.rect(surface, self._color.__tuple__(), pg.Rect(*self.to_rect))
-			if not self.childs is None:
-				for child in self.childs:
-					temp = child._color if not child.drag else child._color / 2
-					pg.draw.rect(surface, temp.__tuple__(), pg.Rect(*child.to_rect))
-					print(child.to_rect, child._color)
+
 	@property
 	def center(self):
 		return AdaptingPlane.overlay.half_size + AdaptingPlane.overlay.half_size * self._center
@@ -132,12 +120,6 @@ class Plane:
 	def drag(self):
 		return self.hover and Mouse.leftButton.state.name == 'drag'
 
+
 if __name__ == '__main__':
-	import time
-	AdaptingPlane.setup_window('Audacity', 'Administrator: Command Prompt')
-	area = Plane(Vertex(.5, 0), Vertex(.5, .5), (0, 0, 0))
-	while True:
-		time.sleep(.2)
-		Mouse.update()
-		AdaptingPlane._align()
-		print(area)
+	pass

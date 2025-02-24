@@ -1,9 +1,10 @@
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
 from DynamicObjects.Event import *
-from DynamicObjects.AdaptingPlane import AdaptingPlane
+from DynamicObjects.AdaptingPlane import AdaptingPlane, ReferencePlane
 import pygame as pg
 Mouse.offset = AdaptingPlane
+
 
 class MuValGen:
 	__slots__ = '_gen', 'last_event', 'event_dict'
@@ -72,6 +73,16 @@ class MuValGen:
 	@property
 	def current(self):
 		return next(self._gen)
+
+
+class RelativeMutableCenterGenerator(MuValGen):
+	__slots__ = '_gen', 'last_event', 'event_dict', 'reference'
+	
+	def __init__(self, default, reference:ReferencePlane, **kwargs):
+		super().__init__(default, **kwargs)
+		self.reference = reference.related	
+
+
 
 class MuCircleGen:
 	__slots__ = '_center', '_radius', '_color'
