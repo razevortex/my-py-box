@@ -79,14 +79,12 @@ Mouse.offset = AdaptingPlane
 class ReferencePlane:
 	__slots__ = '_center', '_size', 'related', 'active'
 
-	def __init__(self, rel_center, rel_size, related=None, active=True):
+	def __init__(self, rel_center, rel_size, active=True):
 		self._center = rel_center
 		self._size = rel_size
-		self.related = self.fetch_ref(related)
+		self.related = FetchRef(self)
 		self.active = active
 
-	def fetch_ref(self, related):
-		return None if related is None else FetchRef(related)
 		
 	def __repr__(self):
 		return f'hover:{self.hover}, click:{self.click}, drag:{self.drag}\n{self.center - self.size / 2}, {Mouse.position}, {self.center + self.size / 2}'
@@ -119,6 +117,7 @@ class ReferencePlane:
 	@property
 	def drag(self):
 		return self.hover and Mouse.leftButton.state.name == 'drag'
+
 
 
 if __name__ == '__main__':

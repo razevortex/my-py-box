@@ -13,17 +13,17 @@ import win32gui
 #test = MuCircleGen(Vertex(0, 0), Vertex(.1, 0), Pixel4(0, 0, 0, 64), 60)
 #test.addEvent('hover', 60, radius=Vertex(.15, 0), color=Pixel4(127, 127, 127, 255))
 
-test = SwitchMain(Vertex(0, 0), Vertex(.2, .1))
+test = Switch('testtesttest', Vertex(0, 0), Vertex(.2, .2))
 #test = Plane(Vertex(.0, .9), Vertex(.98, .1), (0, 0, 0, 0))
 #test.add_child(Vertex(.5, 1.0), Vertex(.02, 1.0), (128, 62, 52))
 #AdaptingPlane.setup_window('VLC media player', 'Playlist')
-area = HorizontalSlider()
+#area = HorizontalSlider()
 class PygameApp:
 	def __init__(self, titles=('VLC media player', 'overlay')):
 		pygame.init()
 		self.title = titles
 		AdaptingPlane.setup_window(*titles)
-		self.areas = [ValueLine(), test]
+		self.areas = [test,]
 		self.active_window = False
 		self.main_window_rect = 0, 0, 0, 0
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -108,5 +108,9 @@ def handles(title):
 
 # Execution Sandbox
 if __name__ == '__main__':
+	fonts = pygame.font.get_fonts()
+	print(len(fonts))
+	for f in fonts:
+		print(f)
 	app = PygameApp()
 	app.run()
