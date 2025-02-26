@@ -3,7 +3,7 @@ from SlotObjects.Fetcher import FetcherObject
 from DynamicObjects.AdaptingPlane import ReferencePlane
 from DynamicObjects.Text import TextBox
 
-class SwitchSub(MuRectGen):
+'''class SwitchSub(MuRectGen):
 	def __init__(self, default:FetcherObject):
 		pos = .25 if default else .75
 		self._center = MuValGen((Vertex(pos, 0), 30))
@@ -76,7 +76,7 @@ class SwitchMain:
 	@property
 	def click(self):
 		return self.hover and Mouse.leftButton.state.name == 'click'
-
+'''
 class BG:
 	__slots__ = '_center', '_size', '_color', 'ref'
 	def __init__(self, center, size, color, ref):
