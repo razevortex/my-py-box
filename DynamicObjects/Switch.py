@@ -76,7 +76,7 @@ class Switch:
 		self.bg1.draw(surface)
 		self.bg2.draw(surface)
 		self.switch.draw(surface)
-		self.label.draw(surface, self.ref.related.abs_center(Vertex(0, -.5)), self.ref.related.abs_size(Vertex(1, 1)))
+		self.label.draw(surface, self.ref.related.abs_size(Vertex(1, 1)), self.ref.related.abs_center(Vertex(0, -.5)))
 		
 
 

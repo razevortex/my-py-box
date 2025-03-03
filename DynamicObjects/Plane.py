@@ -4,7 +4,7 @@ import win32gui
 import pygame as pg
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
-from DynamicObjects.Event import Mouse
+from DynamicObjects.hid_Mouse import Mouse
 
 
 class window:

@@ -3,7 +3,7 @@ from pygame.locals import *
 import pygame.freetype as ttf
 from SlotObjects.Verticies import *
 from DynamicObjects.Slider import *
-from DynamicObjects.Event import *
+from DynamicObjects.hid_Mouse import *
 from DynamicObjects.MutaGen import *
 from DynamicObjects.Switch import *
 from DynamicObjects.Selection import *

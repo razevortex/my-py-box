@@ -5,7 +5,7 @@ import pygame as pg
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
 from SlotObjects.Fetcher import *
-from DynamicObjects.Event import *
+from DynamicObjects.hid_Mouse import *
 
 
 class window:

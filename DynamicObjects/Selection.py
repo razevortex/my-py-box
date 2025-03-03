@@ -1,7 +1,9 @@
 from DynamicObjects.MutaGen import *
 from SlotObjects.Fetcher import FetcherObject
+from DynamicObjects.hid_Mouse import *
 from DynamicObjects.AdaptingPlane import ReferencePlane
 from DynamicObjects.Text import TextBox, TextBoxBG
+
 
 class Items(list):
 	def __init__(self, *args, default=0):
@@ -28,6 +30,7 @@ class Items(list):
 	@property
 	def current(self):
 		return self[self.selection].string
+
 	
 class BG:
 	__slots__ = '_center', '_size', '_color', 'ref'
@@ -101,10 +104,11 @@ class BG:
 	def click(self):
 		return self.hover and Mouse.leftButton.state.name == 'click'
 	
+
 class Selection:
 	__slots__ = 'ref', 'selectables', 'bg1', 'state', '_n_items'
-	def __init__(self, selectables, center=Vertex(0, -.95), size=Vertex(.05, .05), selected=0, n_items=5):
 
+	def __init__(self, selectables, center=Vertex(0, -.95), size=Vertex(.05, .05), selected=0, n_items=5):
 		self._n_items = n_items
 		self.selectables = Items(*selectables, default=selected)
 		self.ref = ReferencePlane(center, size)
@@ -128,7 +132,6 @@ class Selection:
 		self.state = any([bg.hover for bg in bgs])
 		if self.state:
 			for i, bg in enumerate(bgs):
-				#print(f'{i} => hover => {bg.hover}')
 				if bg.click:
 					if i < len(bgs) - 1:
 						print(f'clicked {i} when start {self.selectables.start} of {len(self.selectables)}')
