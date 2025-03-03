@@ -53,7 +53,7 @@ class TextBoxBG:
 		super().__init__(string, font, color)
 		self._bgcolor = bg
 		
-	def draw(self, surface, size, center):
+	def draw(self, surface, center, size):
 		self.get_fit(size, x=center.x, y=center.y)
 		temp = center - self.size / 2
 		pg.draw.rect(surface, self._bgcolor, self.render.get_rect())

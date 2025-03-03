@@ -1,6 +1,7 @@
 from SlotObjects.Verticies import Vertex
 import mouse as hidM
 
+
 class Hover:
 	name = 'hover'
 	
@@ -30,7 +31,7 @@ class MBtn(list):
 		return No
 	
 	def update(self):
-		print('update', hidM.is_pressed(button=self.name))
+		#print('update', hidM.is_pressed(button=self.name))
 		if hidM.is_pressed(self.name):
 			if not all(self):
 				if self[0]: self[1] = True
@@ -41,7 +42,7 @@ class MBtn(list):
 				if self[0]: self[0] = False
 				else: self[1] = False
 			return
-			
+
 
 class Mouse:
 	position = Vertex(*hidM.get_position())
@@ -55,6 +56,7 @@ class Mouse:
 			return Vertex(*hidM.get_position())
 		else:
 			return Vertex(*hidM.get_position()) - cls.offset.overlay.corners[0]
+		
 	@classmethod
 	def update(cls):
 		old = cls.position
@@ -72,10 +74,11 @@ class Mouse:
 	
 # Execution Sandbox
 if __name__ == '__main__':
-	Mouse.update()
+	'''Mouse.update()
 	while not all(Mouse.leftButton):
 		Mouse.update()
 		Mouse.print()
 	while any(Mouse.leftButton):
 		Mouse.update()
-		Mouse.print()
+		Mouse.print()'''
+	pass

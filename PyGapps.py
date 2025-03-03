@@ -6,6 +6,7 @@ from DynamicObjects.Slider import *
 from DynamicObjects.Event import *
 from DynamicObjects.MutaGen import *
 from DynamicObjects.Switch import *
+from DynamicObjects.Selection import *
 import win32api, win32com.client
 import win32con
 import win32gui
@@ -13,11 +14,9 @@ import win32gui
 #test = MuCircleGen(Vertex(0, 0), Vertex(.1, 0), Pixel4(0, 0, 0, 64), 60)
 #test.addEvent('hover', 60, radius=Vertex(.15, 0), color=Pixel4(127, 127, 127, 255))
 
-test = Switch('testtesttest', Vertex(0, 0), Vertex(.2, .2))
-#test = Plane(Vertex(.0, .9), Vertex(.98, .1), (0, 0, 0, 0))
-#test.add_child(Vertex(.5, 1.0), Vertex(.02, 1.0), (128, 62, 52))
-#AdaptingPlane.setup_window('VLC media player', 'Playlist')
-#area = HorizontalSlider()
+#test = Switch('testtesttest', Vertex(0, 0), Vertex(.2, .2))
+test = Selection(['a', 'b', 'c', 'd', 'hello', 'world', 'whats up'])
+
 class PygameApp:
 	def __init__(self, titles=('VLC media player', 'overlay')):
 		pygame.init()
