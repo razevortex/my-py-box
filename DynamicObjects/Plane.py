@@ -1,10 +1,8 @@
-import win32api, win32com.client
-import win32con
+import win32com.client
 import win32gui
 import pygame as pg
 from SlotObjects.Verticies import *
-from SlotObjects.Pixel import *
-from DynamicObjects.hid_Mouse import Mouse
+from StaticObjects.hid_Mouse import Mouse
 
 
 class window:

@@ -1,12 +1,9 @@
 import pygame
 from pygame.locals import *
-import pygame.freetype as ttf
-from SlotObjects.Verticies import *
 from DynamicObjects.Slider import *
-from DynamicObjects.hid_Mouse import *
-from DynamicObjects.MutaGen import *
-from DynamicObjects.Switch import *
 from DynamicObjects.Selection import *
+from DynamicObjects.Text import *
+from StaticObjects.hid_Keyboard import *
 import win32api, win32com.client
 import win32con
 import win32gui
@@ -22,7 +19,7 @@ class PygameApp:
 		pygame.init()
 		self.title = titles
 		AdaptingPlane.setup_window(*titles)
-		self.areas = [test,]
+		self.areas = [test, textinput_test]
 		self.active_window = False
 		self.main_window_rect = 0, 0, 0, 0
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -74,6 +71,7 @@ class PygameApp:
 						self.running = False
 			# self.set_active_window()
 			Mouse.update()
+			KeyBoard.update()
 			AdaptingPlane._align()
 			self.screen.fill(self.background_color)
 			for area in self.areas:

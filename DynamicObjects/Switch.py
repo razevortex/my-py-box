@@ -66,6 +66,7 @@ class Switch:
 		self.bg2 = BG(Vertex(.5, .5), Vertex(.5, .5), Pixel4(255, 0, 0, 255), self.ref.related)
 		self.switch = Switch_(self.ref.related)
 		self.label = TextBox(label, 'arial', Pixel4(0, 0, 255, 255))
+		
 	def event(self):
 		if self.ref.click:
 			self.state = not self.state

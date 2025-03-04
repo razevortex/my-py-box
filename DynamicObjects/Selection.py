@@ -1,9 +1,7 @@
 from DynamicObjects.MutaGen import *
-from SlotObjects.Fetcher import FetcherObject
-from DynamicObjects.hid_Mouse import *
+from StaticObjects.hid_Mouse import *
 from DynamicObjects.AdaptingPlane import ReferencePlane
-from DynamicObjects.Text import TextBox, TextBoxBG
-
+from DynamicObjects.Text import TextBox
 
 class Items(list):
 	def __init__(self, *args, default=0):

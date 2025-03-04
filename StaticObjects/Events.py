@@ -44,22 +44,22 @@ class Hold(Events):
 class InputStateIO:
     _state = (Events(), Events())
     _action = (Events(), Events())
-    __slots__ = 'status', 'name'
+    __slots__ = 'state', 'name'
     
     def __init__(self, name):
         self.name = name
-        self.status = self._state[0]
+        self.state = self._state[0]
     
     def update_status(self):
         self._update_status()
     
     def _update_status(self, got=None):
         for state, action in zip(self._state, self._action):
-            if action == got and self.status not in (state, action):
-                self.status = action
+            if action == got and self.state not in (state, action):
+                self.state = action
                 return
-            elif self.status == action:
-                self.status = state
+            elif self.state == action:
+                self.state = state
                 return
 
 if __name__ == '__main__':

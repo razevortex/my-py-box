@@ -1,11 +1,8 @@
-import win32api, win32com.client
-import win32con
+import win32com.client
 import win32gui
-import pygame as pg
-from SlotObjects.Verticies import *
-from SlotObjects.Pixel import *
 from SlotObjects.Fetcher import *
-from DynamicObjects.hid_Mouse import *
+from StaticObjects.hid_Mouse import *
+from StaticObjects.Events import *
 
 
 class window:
@@ -85,7 +82,6 @@ class ReferencePlane:
 		self.related = FetchRef(self)
 		self.active = active
 
-		
 	def __repr__(self):
 		return f'hover:{self.hover}, click:{self.click}, drag:{self.drag}\n{self.center - self.size / 2}, {Mouse.position}, {self.center + self.size / 2}'
 
@@ -112,11 +108,11 @@ class ReferencePlane:
 	
 	@property
 	def click(self):
-		return self.hover and Mouse.leftButton.state.name == 'click'
+		return self.hover and Mouse.leftButton.state == Click
 	
 	@property
 	def drag(self):
-		return self.hover and Mouse.leftButton.state.name == 'drag'
+		return self.hover and Mouse.leftButton.state == Drag
 
 
 

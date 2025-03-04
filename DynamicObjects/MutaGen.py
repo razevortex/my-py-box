@@ -1,6 +1,5 @@
-from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
-from DynamicObjects.hid_Mouse import *
+from StaticObjects.hid_Mouse import *
 from DynamicObjects.AdaptingPlane import AdaptingPlane, ReferencePlane
 import pygame as pg
 Mouse.offset = AdaptingPlane
