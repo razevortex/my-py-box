@@ -1,11 +1,12 @@
 import win32com.client
 import win32gui
+import pygame as pg
 from SlotObjects.Fetcher import *
 from StaticObjects.hid_Mouse import *
 from StaticObjects.Events import *
 
 
-class window:
+class Window:
 	def __init__(self, name):
 		self.name = name
 	
@@ -16,21 +17,27 @@ class window:
 	@property
 	def _rect(self):
 		return win32gui.GetWindowRect(self.id)
+	
 	@property
 	def center(self):
 		return (Vertex(*self._rect[:2]) + Vertex(*self._rect[2:])) / 2
+	
 	@property
 	def half_size(self):
 		return Vertex(*self._rect[2:]) - self.center
+	
 	@property
 	def fullsize(self):
 		return self.half_size * 2
+	
 	@property
 	def w(self):
 		return int(self.fullsize.x)
+	
 	@property
 	def h(self):
 		return int(self.fullsize.y)
+	
 	@property
 	def corners(self):
 		l, t, r, b = self._rect
@@ -38,14 +45,13 @@ class window:
 	
 	@property
 	def is_active(self):
-		 return self.id == win32gui.GetForegroundWindow()
+		return self.id == win32gui.GetForegroundWindow()
 	
 	def arrange(self, _rect):
-		#assert isinstance(_rect, cls.__class__), f'_rect of type {type(_rect)} is not the expected type'
 		x, y = _rect.corners[0].__tuple__()
 		win32gui.MoveWindow(self.id, x, y, _rect.w, _rect.h, True)
 
-	def push_to_forground(self):
+	def push_to_foreground(self):
 		shell = win32com.client.Dispatch("WScript.Shell")
 		shell.SendKeys('%')
 		win32gui.SetForegroundWindow(self.id)
@@ -58,16 +64,16 @@ class AdaptingPlane:
 	
 	@classmethod
 	def setup_window(cls, target, overlay):
-		cls.target = window(target)
+		cls.target = Window(target)
 		cls.last_target_rect = cls.target._rect
-		cls.overlay = window(overlay)
+		cls.overlay = Window(overlay)
 	
 	@classmethod
 	def _align(cls):
 		if cls.last_target_rect != cls.target._rect:
 			cls.last_target_rect = cls.target._rect
 			cls.overlay.arrange(cls.target)
-			cls.overlay.push_to_forground()
+			cls.overlay.push_to_foreground()
 
 
 Mouse.offset = AdaptingPlane
@@ -114,6 +120,7 @@ class ReferencePlane:
 	def drag(self):
 		return self.hover and Mouse.leftButton.state == Drag
 
+
 class VisiblePlane(ReferencePlane):
 	__slots__ = '_center', '_size', '_color', 'related', 'ref', 'active'
 	
@@ -143,6 +150,7 @@ class VisiblePlane(ReferencePlane):
 	
 	def draw(self, surface):
 		pg.draw.rect(surface, self._color.__tuple__(), self.rect)
+
 
 if __name__ == '__main__':
 	pass

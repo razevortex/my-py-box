@@ -31,11 +31,11 @@ class PygameApp:
 		self.size = Vertex(self.screen_width + self.screen_height) // 2
 		self.frame = 0'''
 		fuchsia = self.background_color[:3]
-		hwnd = pygame.display.get_wm_info()["window"]
+		hwnd = pygame.display.get_wm_info()["Window"]
 		win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
 							   win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED
 							   )
-		# Set window transparency color
+		# Set Window transparency color
 		win32gui.SetLayeredWindowAttributes(hwnd, win32api.RGB(*fuchsia), 0, win32con.LWA_COLORKEY)
 		self.running = True
 	

@@ -1,6 +1,7 @@
 from SlotObjects.Verticies import *
 from SlotObjects.Pixel import *
 
+
 class ColorFader(list):
 	def __init__(self, *args, steps=30):
 		self.position = 0
@@ -42,8 +43,9 @@ class ColorFader(list):
 			self.state = None
 
 
-class targetColor:
+class TargetColor:
 	__slots__ = 'target', 'steps'
+	
 	def __init__(self, target, steps):
 		self.target, self.steps = target, steps
 		
@@ -54,6 +56,7 @@ class targetColor:
 		else:
 			return []
 		
+
 if __name__ == '__main__':
 	temp = ColorFader(Pixel3.random(), Pixel3.random(), Pixel3.random())
 	for i in range(1, 90):
