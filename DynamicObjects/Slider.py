@@ -1,4 +1,4 @@
-from DynamicObjects.Plane import *
+from DynamicObjects.AdaptingPlane import VisiblePlane as Plane
 from SlotObjects.ValueMapping import ValueRange as vrange
 
 

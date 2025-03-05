@@ -114,7 +114,35 @@ class ReferencePlane:
 	def drag(self):
 		return self.hover and Mouse.leftButton.state == Drag
 
-
+class VisiblePlane(ReferencePlane):
+	__slots__ = '_center', '_size', '_color', 'related', 'ref', 'active'
+	
+	def __init__(self, center, size, color, active=True, ref=None):
+		super().__init__(center, size, active)
+		self._color = color
+		self.ref = ref
+	
+	@property
+	def center(self):
+		if self.ref is None:
+			return super().center
+		else:
+			return self.ref.abs_center(self._center)
+		
+	@property
+	def size(self):
+		if self.ref is None:
+			return super().center
+		else:
+			return self.ref.abs_size(self._size)
+	
+	@property
+	def rect(self):
+		temp = self.center - self.size / 2
+		return pg.Rect(*temp.__tuple__() + self.size.__tuple__())
+	
+	def draw(self, surface):
+		pg.draw.rect(surface, self._color.__tuple__(), self.rect)
 
 if __name__ == '__main__':
 	pass
