@@ -1,4 +1,32 @@
 from SlotObjects.Verticies import Vertex
+
+class LinearMapping:
+	__slots__ = 'a_start', 'a_end', 'b_start', 'b_end', 'relative_value'
+	def __init__(self, a_start, a_end, b_start, b_end, rel_pos):
+		self.a_start, self.b_start = a_start, b_start
+		self.a_end, self.b_end = a_end, b_end
+		self.relative_value = rel_pos
+		
+	@property
+	def a_dist(self):
+		return self.a_end - self.a_start
+	
+	@property
+	def b_dist(self):
+		return self.b_end - self.b_start
+	
+	@property
+	def abs_a(self):
+		return self.a_dist * self.relative_value + self.a_start
+
+	@property
+	def abs_b(self):
+		return self.b_dist * self.relative_value + self.b_start
+
+	def get_relative_value(self, related_to:int, value):
+		self.relative_value = [self.a_dist, self.b_dist][related_to] / (value - [self.a_start, self.b_start][related_to])
+
+
 class ValueRange:
 	__slots__ = 'start', 'end', 'value', 'iter'
 	def __init__(self, start=0, end=100, value=0, iter=1):

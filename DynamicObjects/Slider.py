@@ -6,6 +6,7 @@ class ValueLine:
 	def __init__(self, rel_center=Vertex(0, .9), rel_size=Vertex(1, .2)):
 		self.rel_placement = Plane(rel_center, rel_size, Pixel4(0,0,0,0))
 		self.value_range = vrange()
+		
 	@property
 	def lane(self):
 		l, t, w, h = self.rel_placement.to_rect
@@ -59,15 +60,13 @@ class HorizontalSlider:
 			print(self.slider._center, self.slider._size, self.slider.to_rect)
 			#self.lane.draw(surface)
 			
-	
 	def value_update(self, delta=0):
 		self.value_range.value += delta
 		if self.slider.drag:
 			self.value_range.rel_pos = self.posrange.x / 2 - (self.posrange.x - Mouse.position.x)
 		try:t = self.posrange.x / self.value_range.rel_pos
 		except:t = 0
-		self.slider._center.x = 1 / self.value_range.rel_pos #self.posrange.x / 2
-	
+		self.slider._center.x = 1 / self.value_range.rel_pos
 	
 	@property
 	def start(self):
