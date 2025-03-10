@@ -1,5 +1,8 @@
-from DynamicObjects.AdaptingPlane import VisiblePlane as Plane
-from SlotObjects.ValueMapping import ValueRange as vrange
+from DynamicObjects.AdaptingPlane import VisiblePlane, ReferencePlane, Mouse, FetcherObject, Events
+from SlotObjects.Verticies import Vertex
+from SlotObjects.Pixel import *
+from SlotObjects.ValueMapping import ValueRange as vrange, LinearMapping as lmap
+import pygame as pg
 
 
 class ValueLine:
@@ -80,6 +83,48 @@ class HorizontalSlider:
 	def posrange(self):
 		print('posrange: ', self.end - self.start)
 		return self.end - self.start
+
+
+class Timeline:
+	__slots__ = 'ref', 'totaltime', 'value'
+	def __init__(self, ref:VisiblePlane):
+		self.ref = ref
+		self.value = lmap(self.left, self.right, 0, 1, 0)
+		self.totaltime = 1
+
+	def __setattr__(self, key, val):
+		if key == 'totaltime':
+			self.__getattribute__('value').b_end = val
+		super().__setattr__(key, val)
+		
+	@property
+	def left(self):
+		return self.ref.left
+	
+	@property
+	def right(self):
+		return self.ref.right
+	
+	def updata_val(self, seconds=.5):
+		self.value.a_start, self.value.a_end = self.left, self.right
+		if self.ref.click or self.ref.drag:
+			self.value.get_relative_value(0, Mouse.position.x - self.left)
+		else:
+			self.value.get_relative_value(1, seconds)
+			
+	@property
+	def slider(self):
+		size = max(self.ref.size.x / 100, 15), self.ref.size.y
+		return (int(self.value.abs_a), int(self.ref.center.y - size[1] / 2), int(size[0]), int(size[1]))#(600, 600, int(x), int(y))
+
+	def draw(self, surface):
+		self.ref.draw(surface)
+		temp = self.ref.size / 2
+		temp.y = 0
+		pg.draw.line(surface, (64, 64, 64), (self.ref.center - temp).__tuple__(), (self.ref.center + temp).__tuple__(), width=5)
+		self.updata_val(.5)
+		pg.draw.rect(surface, (255, 64, 64), self.slider)
+
 
 
 

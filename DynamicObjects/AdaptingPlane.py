@@ -127,7 +127,20 @@ class VisiblePlane(ReferencePlane):
 	def __init__(self, center, size, color, active=True, ref=None):
 		super().__init__(center, size, active)
 		self._color = color
-		self.ref = ref
+		print(self)
+		self.ref = ref #if ref is not None else ReferencePlane(Vertex(0, 0), Vertex(1, 1))
+	
+	def __repr__(self):
+		string = f'center:{self._center}\nsize:{self._size}\ncolor:{self._color}'
+		return string
+	
+	@property
+	def left(self):
+		return (self.center - self.size / 2).x
+	
+	@property
+	def right(self):
+		return (self.center + self.size / 2).x
 	
 	@property
 	def center(self):
@@ -139,7 +152,7 @@ class VisiblePlane(ReferencePlane):
 	@property
 	def size(self):
 		if self.ref is None:
-			return super().center
+			return super().size
 		else:
 			return self.ref.abs_size(self._size)
 	

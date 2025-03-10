@@ -24,7 +24,7 @@ class LinearMapping:
 		return self.b_dist * self.relative_value + self.b_start
 
 	def get_relative_value(self, related_to:int, value):
-		self.relative_value = [self.a_dist, self.b_dist][related_to] / (value - [self.a_start, self.b_start][related_to])
+		self.relative_value = (value - [self.a_start, self.b_start][related_to]) / [self.a_dist, self.b_dist][related_to]
 
 
 class ValueRange:
