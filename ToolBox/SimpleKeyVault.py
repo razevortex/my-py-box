@@ -59,24 +59,53 @@ class EncryptedString(str):
 
 class KeyVault:
     key_class = EncryptedString
-    root_path = Path('/content/')
+    root_path = Path('V:\\vault')
 
     @classmethod
+    def setVaultPath(cls, here:Path):
+        assert here.is_dir(), 'the path must be a dir'
+        cls.root_path = here
+        
+    @classmethod
     def store(cls, key, data:dict):
-        temp = cls.key_class(key)
+        cryp = cls.key_class(key)
+        data = cryp.encrypt(dumps(data))
         write = False
-        if (cls.root_path / f'{temp._hash}.json').exists():
+        if (cls.root_path / f'{cryp._hash}.json').exists():
             write = 'Y' == input('key already exists override enter "Y":')
         else:
             write = True
         if write:
-            with open(cls.root_path / f'{temp._hash}.json', 'w') as f:
-                f.write(dumps(data))
+            with open(cls.root_path / f'{cryp._hash}.json', 'w') as f:
+                f.write(data)
 
     @classmethod
     def load(cls, key):
-        temp = cls.key_class(key)
-        if (cls.root_path / f'{temp._hash}.json').exists():
-            with open(cls.root_path / f'{temp._hash}.json', 'r') as f:
-                return loads(f.read())
+        cryp = cls.key_class(key)
+        if (cls.root_path / f'{cryp._hash}.json').exists():
+            with open(cls.root_path / f'{cryp._hash}.json', 'r') as f:
+                return loads(cryp.decrypt(f.read()))
+
+
+class KeyEntry:
+    @classmethod
+    def create(cls):
+        temp = {}
+        temp['at'] = input('secret used at:')
+        temp['as'] = input('secret used as:')
+        temp['key'] = input('secret key:')
+        return input('vault key:'), temp
+        
+if __name__ == '__main__':
+    got = None
+    while got != 'exit':
+        got = input('store, load or exit?')
+        if got == 'store':
+            KeyVault.store(*KeyEntry.create())
+        elif got == 'load':
+            print(KeyVault.load(input('enter vault key:')))
+        elif got == 'exit':
+            break
+        else:
+            pass
 
