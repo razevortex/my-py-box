@@ -1,12 +1,11 @@
-import os
-import base64
-import hashlib
-from pathlib import Path
-from json import dumps, loads
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.Util.Padding import pad, unpad
+from random import randint as rng
+import os
+import base64
+import hashlib
 
 
 class EncryptedString(str):
@@ -22,11 +21,19 @@ class EncryptedString(str):
     def pw(self):
         return self.encode('utf-8')
 
-    def KEY(self, salt=None, iv=None):
-        salt, iv = [os.urandom(16) if key is None else key for key in [salt, iv]]
-        return PBKDF2(self.pw, salt, dkLen=32, count=100000, hmac_hash_module=SHA256), salt, iv
-
     def encrypt(self, data):
+        """
+        Encrypts data using the string instance as password.
+
+        Args:
+            data (str|bytes): Data to encrypt
+
+        Returns:
+            bytes|str: Encrypted data in bytes (if input was bytes)
+                      or base64 string (if input was str)
+        """
+        # Convert string input to bytes
+
         if isinstance(data, str):
             data_bytes = data.encode('utf-8')
             return_str = True
@@ -34,15 +41,39 @@ class EncryptedString(str):
             data_bytes = data
             return_str = False
 
-        key, salt, iv = self.KEY()
+        # Generate random salt and IV
+        salt = os.urandom(16)
+        iv = os.urandom(16)
+
+        # Derive encryption key
+        key = PBKDF2(
+            self.pw,
+            salt,
+            dkLen=32,
+            count=100000,  # PBKDF2 iterations
+            hmac_hash_module=SHA256
+        )
+
+        # Encrypt data
         cipher = AES.new(key, AES.MODE_CBC, iv)
         ciphertext = cipher.encrypt(pad(data_bytes, AES.block_size))
+
+        # Combine salt + IV + ciphertext
         encrypted = salt + iv + ciphertext
+
         return base64.b64encode(encrypted).decode('utf-8') if return_str else encrypted
 
-
     def decrypt(self, encrypted_data):
-        
+        """
+        Decrypts data using the string instance as password.
+
+        Args:
+            encrypted_data (str|bytes): Data to decrypt
+
+        Returns:
+            bytes: Decrypted bytes (call .decode() to get string)
+        """
+        # Convert base64 string to bytes
         if isinstance(encrypted_data, str):
             encrypted_data = base64.b64decode(encrypted_data)
 
@@ -50,62 +81,38 @@ class EncryptedString(str):
         salt = encrypted_data[:16]
         iv = encrypted_data[16:32]
         ciphertext = encrypted_data[32:]
-        key, _, __ = self.KEY(salt=salt, iv=iv)
-        
+
+        # Derive encryption key
+        key = PBKDF2(
+            self.pw,
+            salt,
+            dkLen=32,
+            count=100000,
+            hmac_hash_module=SHA256
+        )
+
+        # Decrypt data
         cipher = AES.new(key, AES.MODE_CBC, iv)
         decrypted = unpad(cipher.decrypt(ciphertext), AES.block_size)
-        return decrypted
+
+        return decrypted.decode('utf-8')
 
 
-class KeyVault:
-    key_class = EncryptedString
-    root_path = Path('V:\\vault')
-
-    @classmethod
-    def setVaultPath(cls, here:Path):
-        assert here.is_dir(), 'the path must be a dir'
-        cls.root_path = here
-        
-    @classmethod
-    def store(cls, key, data:dict):
-        cryp = cls.key_class(key)
-        data = cryp.encrypt(dumps(data))
-        write = False
-        if (cls.root_path / f'{cryp._hash}.json').exists():
-            write = 'Y' == input('key already exists override enter "Y":')
-        else:
-            write = True
-        if write:
-            with open(cls.root_path / f'{cryp._hash}.json', 'w') as f:
-                f.write(data)
-
-    @classmethod
-    def load(cls, key):
-        cryp = cls.key_class(key)
-        if (cls.root_path / f'{cryp._hash}.json').exists():
-            with open(cls.root_path / f'{cryp._hash}.json', 'r') as f:
-                return loads(cryp.decrypt(f.read()))
+class KeyVaultRng(dict):
+	
+	def __new__(cls, **kwargs):
+		cls.CryPyObj = EncryptedString(''.join([f'{rng(0, 9)}' for _ in range(16)]))
+		return super().__new__(cls)
+	
+	def store_new(self, key, val:str):
+		self.__setitem__(key, self.CryPyObj.encrypt(val))
+		
+	def __getitem__(self, key):
+		return self.CryPyObj.decrypt(super().__getitem__(key))
 
 
-class KeyEntry:
-    @classmethod
-    def create(cls):
-        temp = {}
-        temp['at'] = input('secret used at:')
-        temp['as'] = input('secret used as:')
-        temp['key'] = input('secret key:')
-        return input('vault key:'), temp
-        
-if __name__ == '__main__':
-    got = None
-    while got != 'exit':
-        got = input('store, load or exit?')
-        if got == 'store':
-            KeyVault.store(*KeyEntry.create())
-        elif got == 'load':
-            print(KeyVault.load(input('enter vault key:')))
-        elif got == 'exit':
-            break
-        else:
-            pass
-
+class KeyVault(KeyVaultRng):
+	
+	def __new__(cls, passcode, **kwargs):
+		cls.CryPyObj = EncryptedString(passcode)
+		return super().__new__(cls)
