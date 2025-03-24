@@ -1,5 +1,5 @@
 from CryptString import CryStr
-from BitFile import BitString
+from BitFile import BitFile
 from json import dumps, loads
 from dataclasses import dataclass
 import os, sys
@@ -15,11 +15,11 @@ def getSecStorage(crypt_key):
 		file_path:Path
 	
 		def create(self, data: dict | type(None)) -> None:
-			BitString.i2b(*[ord(char) for char in self.crypt_key.encrypt(dumps(data))], _N=8).write(self.file_path)
+			BitFile.i2b(*[ord(char) for char in self.crypt_key.encrypt(dumps(data))], _N=8).write(self.file_path)
 	
 		def get_data(self) -> dict:
 			assert Path.exists(self.file_path), f'{self.file_path} seems not to exist'
-			return loads(self.crypt_key.decrypt(''.join([chr(val) for val in BitString.read(self.file_path).b2i(_N=8)])))
+			return loads(self.crypt_key.decrypt(''.join([chr(val) for val in BitFile.read(self.file_path).b2i(_N=8)])))
 		
 		def get_key(self, key) -> dict:
 			return self.get_data().get(key, None)
