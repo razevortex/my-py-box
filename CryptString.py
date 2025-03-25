@@ -23,8 +23,8 @@ class CryStr(str):
 	def get_key(self, salt):
 		return PBKDF2(self.pw, salt, dkLen=32, count=100000, hmac_hash_module=SHA256)
 	
-	def encrypt(self, data: str):
-		data_bytes = data.encode('utf-8')
+	def encrypt(self, data: str|bytes):
+		data_bytes = data if isinstance(data, bytes) else data.encode('utf-8')
 		salt, iv = os.urandom(16), os.urandom(16)
 		cipher = AES.new(self.get_key(salt), AES.MODE_CBC, iv)
 		ciphertext = cipher.encrypt(pad(data_bytes, AES.block_size))
@@ -41,5 +41,5 @@ class CryStr(str):
 if __name__ == '__main__':
 	temp = CryStr('245ertf')
 	got = temp.encrypt('lol was los')
-	print(got)
+	print(got, type(got))
 	print(temp.decrypt(got))

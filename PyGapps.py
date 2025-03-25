@@ -19,12 +19,12 @@ class PygameApp:
 		pygame.init()
 		self.title = titles
 		AdaptingPlane.setup_window(*titles)
+		self.areas = [test, textinput_test]
 		self.active_window = False
 		self.main_window_rect = 0, 0, 0, 0
 		self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 		self.background_color = (0, 0, 0, 255)
 		pygame.display.set_caption(self.title[1])
-		self.areas = [test, textinput_test, Timeline(VisiblePlane(Vertex(0,.95), Vertex(1, .1), Pixel4(32, 32, 32, 255)))]
 		'''self.screen_width = self.screen.get_width()
 		self.screen_height = self.screen.get_height()
 		self.center = Vertex(self.screen_width//2, self.screen_height//2)
@@ -35,7 +35,7 @@ class PygameApp:
 		win32gui.SetWindowLong(hwnd, win32con.GWL_EXSTYLE,
 							   win32gui.GetWindowLong(hwnd, win32con.GWL_EXSTYLE) | win32con.WS_EX_LAYERED
 							   )
-		# Set Window transparency color
+		# Set window transparency color
 		win32gui.SetLayeredWindowAttributes(hwnd, win32api.RGB(*fuchsia), 0, win32con.LWA_COLORKEY)
 		self.running = True
 	

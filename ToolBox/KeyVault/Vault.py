@@ -1,8 +1,8 @@
 from CryptString import CryStr
-from BitFile import BitFile
+from ToolBox.BitFiles.BitFile import BitFile
 from json import dumps, loads
 from dataclasses import dataclass
-import os, sys
+import sys
 # Note that Path is not the Path from pathlib 
 from os import path as Path
 
