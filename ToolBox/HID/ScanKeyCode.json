@@ -1,0 +1,284 @@
+			[
+  {
+    "base": "^",
+    "shift": "\u00b0",
+    "alt": null,
+    "code": 41
+  },
+  {
+    "base": "1",
+    "shift": "!",
+    "alt": null,
+    "code": 2
+  },
+  {
+    "base": "2",
+    "shift": "\"",
+    "alt": null,
+    "code": 3
+  },
+  {
+    "base": "3",
+    "shift": "\u00a7",
+    "alt": null,
+    "code": 4
+  },
+  {
+    "base": "4",
+    "shift": "$",
+    "alt": null,
+    "code": 5
+  },
+  {
+    "base": "5",
+    "shift": "%",
+    "alt": null,
+    "code": 6
+  },
+  {
+    "base": "6",
+    "shift": "&",
+    "alt": null,
+    "code": 7
+  },
+  {
+    "base": "7",
+    "shift": "/",
+    "alt": "{",
+    "code": 8
+  },
+  {
+    "base": "8",
+    "shift": "(",
+    "alt": "[",
+    "code": 9
+  },
+  {
+    "base": "9",
+    "shift": ")",
+    "alt": "]",
+    "code": 10
+  },
+  {
+    "base": "0",
+    "shift": "=",
+    "alt": "}",
+    "code": 11
+  },
+  {
+    "base": "\u00df",
+    "shift": "?",
+    "alt": "\u00b4",
+    "code": 12
+  },
+  {
+    "base": "q",
+    "shift": "Q",
+    "alt": "@",
+    "code": 16
+  },
+  {
+    "base": "w",
+    "shift": "W",
+    "alt": null,
+    "code": 17
+  },
+  {
+    "base": "e",
+    "shift": "E",
+    "alt": "\u20ac",
+    "code": 18
+  },
+  {
+    "base": "r",
+    "shift": "R",
+    "alt": null,
+    "code": 19
+  },
+  {
+    "base": "t",
+    "shift": "T",
+    "alt": null,
+    "code": 20
+  },
+  {
+    "base": "z",
+    "shift": "Z",
+    "alt": null,
+    "code": 21
+  },
+  {
+    "base": "u",
+    "shift": "U",
+    "alt": null,
+    "code": 22
+  },
+  {
+    "base": "i",
+    "shift": "I",
+    "alt": null,
+    "code": 23
+  },
+  {
+    "base": "o",
+    "shift": "O",
+    "alt": null,
+    "code": 24
+  },
+  {
+    "base": "p",
+    "shift": "P",
+    "alt": null,
+    "code": 25
+  },
+  {
+    "base": "\u00fc",
+    "shift": "\u00dc",
+    "alt": null,
+    "code": 26
+  },
+  {
+    "base": "+",
+    "shift": "*",
+    "alt": "~",
+    "code": 27
+  },
+  {
+    "base": "a",
+    "shift": "A",
+    "alt": null,
+    "code": 30
+  },
+  {
+    "base": "s",
+    "shift": "S",
+    "alt": null,
+    "code": 31
+  },
+  {
+    "base": "d",
+    "shift": "D",
+    "alt": null,
+    "code": 32
+  },
+  {
+    "base": "f",
+    "shift": "F",
+    "alt": null,
+    "code": 33
+  },
+  {
+    "base": "g",
+    "shift": "G",
+    "alt": null,
+    "code": 34
+  },
+  {
+    "base": "h",
+    "shift": "H",
+    "alt": null,
+    "code": 35
+  },
+  {
+    "base": "j",
+    "shift": "J",
+    "alt": null,
+    "code": 36
+  },
+  {
+    "base": "k",
+    "shift": "K",
+    "alt": null,
+    "code": 37
+  },
+  {
+    "base": "l",
+    "shift": "L",
+    "alt": null,
+    "code": 38
+  },
+  {
+    "base": "\u00f6",
+    "shift": "\u00d6",
+    "alt": null,
+    "code": 39
+  },
+  {
+    "base": "\u00e4",
+    "shift": "\u00c4",
+    "alt": null,
+    "code": 40
+  },
+  {
+    "base": "#",
+    "shift": "'",
+    "alt": null,
+    "code": 43
+  },
+  {
+    "base": "<",
+    "shift": ">",
+    "alt": "|",
+    "code": 86
+  },
+  {
+    "base": "y",
+    "shift": "Y",
+    "alt": null,
+    "code": 44
+  },
+  {
+    "base": "x",
+    "shift": "X",
+    "alt": null,
+    "code": 45
+  },
+  {
+    "base": "c",
+    "shift": "C",
+    "alt": null,
+    "code": 46
+  },
+  {
+    "base": "v",
+    "shift": "V",
+    "alt": null,
+    "code": 47
+  },
+  {
+    "base": "b",
+    "shift": "B",
+    "alt": null,
+    "code": 48
+  },
+  {
+    "base": "n",
+    "shift": "N",
+    "alt": null,
+    "code": 49
+  },
+  {
+    "base": "m",
+    "shift": "M",
+    "alt": null,
+    "code": 50
+  },
+  {
+    "base": ",",
+    "shift": ";",
+    "alt": null,
+    "code": 51
+  },
+  {
+    "base": ".",
+    "shift": ":",
+    "alt": null,
+    "code": 52
+  },
+  {
+    "base": "-",
+    "shift": "_",
+    "alt": null,
+    "code": 53
+  }
+]
