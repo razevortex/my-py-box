@@ -33,16 +33,31 @@ class Bits(ba):
 		return super().tobytes()
 
 
-class _Type_Int:
+class _Type:
+	__slots__ = '_type', 'value_', '_default'
+
+	def __new__(cls, default=None):
+		cls._default = default
+		return super().__new__(cls)
+
+	def __init__(self, *args):
+		self.value_ = self._default
+
+	@property
+	def value(self):
+		return self.value_
+
+	def __repr__(self):
+		return f'{self.value}'
+
+
+class _Int(_Type):
 	__slots__ = '_type', 'value_', '_range', '_default'
 	def __new__(cls, min_:int, max_:int, default=None):
 		cls._default = default
 		cls._type = int
 		cls._range = min_, max_
 		return super().__new__(cls)
-
-	def __init__(self, *args):
-		self.value_ = self._default
 
 	@property
 	def n_bit(self):
@@ -67,20 +82,14 @@ class _Type_Int:
 		assert self.value is not None, 'Value wasn`t set yet'
 		return Bits.i2b(self.value + abs(self._range[0]), self.n_bit)
 
-	def __repr__(self):
-		return f'{self.value}'
 
-
-class _Type_Float:
+class _Float(_Type):
 	__slots__ = '_type', 'value_', '_range', '_default'
 	def __new__(cls, min_:int, max_:int, dec_:int, default=None):
 		cls._default = default
 		cls._type = float
 		cls._range = min_, max_, dec_
 		return super().__new__(cls)
-
-	def __init__(self, *args):
-		self.value_ = self._default
 
 	@property
 	def n_bit(self):
@@ -105,19 +114,13 @@ class _Type_Float:
 		assert self.value is not None, 'Value wasn`t set yet'
 		return Bits.i2b(int(self.value * 10 ** self._range[2] + abs(self._range[0])), self.n_bit)
 
-	def __repr__(self):
-		return f'{self.value}'
 
-
-class _Type_Bool:
+class _Bool(_Type):
 	__slots__ = '_type', 'value_', '_default'
 	def __new__(cls, default=None):
 		cls._default = default
 		cls._type = bool
 		return super().__new__(cls)
-
-	def __init__(self, *args):
-		self.value_ = self._default
 
 	@property
 	def n_bit(self):
@@ -140,11 +143,8 @@ class _Type_Bool:
 		assert self.value is not None, 'Value wasn`t set yet'
 		return Bits.i2b(int(self.value), self.n_bit)
 
-	def __repr__(self):
-		return f'{self.value}'
 
-
-class _Type_String:
+class _String(_Type):
 	__slots__ = '_type', 'value_', '_charset', '_chars', '_default'
 	def __new__(cls, charset:str, chars:int, default=None):
 		cls._default = default
@@ -153,15 +153,12 @@ class _Type_String:
 		cls._type = str
 		return super().__new__(cls)
 
-	def __init__(self, *args):
-		self.value_ = self._default
-
 	@staticmethod
 	def _get_dict(charset):
 		i = 0
 		while 2 ** i < len(charset) + 1:
 			i += 1
-		temp = {charset[j]: Bits.i2b(j, i) for j in range(1, len(charset))}
+		temp = {charset[j]: Bits.i2b(j+1, i) for j in range(len(charset))}
 		temp['§PAD'] = Bits.i2b(0, i)
 		return temp
 
@@ -171,18 +168,16 @@ class _Type_String:
 
 	@property
 	def value(self):
-		
 		return self.value_
 
 	@value.setter
 	def value(self, value):
 		if isinstance(value, self._type) and len(value) <= self._chars:
-			if all([char in self._charset.keys() for char in value]):
+			if all([char in list(self._charset.keys()) for char in value]):
 				self.value_ = value
 		if isinstance(value, Bits):
 			value = value << self.n_bit
 			self.value = ''.join(value.decode(self._charset)).replace('§PAD', '')
-
 
 	@property
 	def bits(self):
@@ -190,15 +185,11 @@ class _Type_String:
 		temp = Bits('')
 		temp.encode(self._charset, self.value)
 		while len(temp) < self.n_bit:
-			temp += self._charset['NONE']
+			temp += self._charset['§PAD']
 		return temp
 
-	def __repr__(self):
-		return f'{self.value}'
-		
 
-
-class _Type_Datetime:
+class _Datetime(_Type):
 	__slots__ = '_type', 'value_', '_data', '_format', '_default'
 	def __new__(cls, data, format, default=None):
 		cls._default = default
@@ -207,16 +198,12 @@ class _Type_Datetime:
 		cls._format = format
 		return super().__new__(cls)
 
-	def __init__(self, *args):
-		self.value_ = self._default
-
 	@property
 	def data_dict(self):
 		return {'day': 6, 'month': 4, 'year': 12, 'hour': 6, 'minute': 6, 'second': 6}
 
 	@property
 	def n_bit(self):
-
 		return sum([self.data_dict.get(item, 0) for item in self._data])
 
 	@property
@@ -244,3 +231,66 @@ class _Type_Datetime:
 		assert self.value is not None, 'Value wasn`t set yet'
 		return f'{self.value.strftime(self._format)}'
 
+class DataObject:
+    __slots__ = ()
+    _type_map = {}
+
+    def __init__(self, *args):
+        for i, slot in enumerate(self.__slots__):
+            super().__setattr__(slot, self._type_map.get(slot))
+
+    @classmethod
+    def build(cls, **kwargs):
+        class new(DataObject):
+            __slots__ = tuple(kwargs.keys())
+            _type_map = kwargs
+        return new
+        
+    @classmethod
+    def set_values(cls, **kwargs):
+        cls = cls()
+        for key, value in kwargs.items():
+            if key in cls.__slots__:
+                cls._type_map.get(key).value = value
+        return cls
+    
+    @classmethod
+    def from_bits(cls, bits:Bits):
+        cls = cls()
+        for slot in cls.__slots__:
+            cls.__setattr__(slot, bits)
+        return cls
+                                
+    def __getattribute__(self, key):
+        if isinstance(super().__getattribute__(key), _Type):
+            return super().__getattribute__(key).value
+        else:
+            return super().__getattribute__(key)
+
+    def __setattr__(self, key, value):
+        if isinstance(value, _Type):
+            super().__setattr__(key, value)
+        elif isinstance(super().__getattribute__(key), _Type):
+            super().__getattribute__(key).value = value
+        else:
+            print(super().__getattribute__(key))
+            super().__setattr__(key, value)
+
+    @property
+    def bits(self):
+        temp = Bits('')
+        for slot in self.__slots__:
+            temp += super().__getattribute__(slot).bits
+        return temp
+
+    def __repr__(self):
+        return '\n'.join([f'{self.__getattribute__(slot)}' for slot in self.__slots__])
+
+if __name__ == '__main__':
+	aObj = DataObject.build(**{'a': _Int(0, 255), 'b': _Float(0, 1, 5)})
+	temp = aObj().set_values(a=123, b=0.12345)
+	print(temp)
+	print(temp.bits)
+	temp = aObj().from_bits(test.bits)
+	print(temp)
+ 
