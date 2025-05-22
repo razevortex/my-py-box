@@ -1,4 +1,4 @@
-from pathlib import Path
+'''from pathlib import Path
 import subprocess as sp
 import os
 import sys
@@ -9,4 +9,4 @@ print(Path.cwd())
 print(os.getcwd())
 temp = sp.STARTUPINFO()
 temp.dwFlags |= sp.STARTF_USESHOWWINDOW
-print(sp.run('powershell.exe', startupinfo=temp))
+print(sp.run('powershell.exe', startupinfo=temp))'''
