@@ -288,9 +288,9 @@ class DataObject:
 
 if __name__ == '__main__':
 	aObj = DataObject.build(**{'a': _Int(0, 255), 'b': _Float(0, 1, 5)})
-	temp = aObj().set_values(a=123, b=0.12345)
+	temp = aObj.set_values(a=123, b=0.12345)
 	print(temp)
 	print(temp.bits)
-	temp = aObj().from_bits(test.bits)
+	temp = aObj.from_bits(test.bits)
 	print(temp)
  
