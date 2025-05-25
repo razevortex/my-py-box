@@ -7,7 +7,7 @@ from datetime import datetime as dt
 
 class Bits(ba):
 
-	@classmethod
+@classmethod
 	def i2b(cls, value:int, bits:int):
 		return cls(int2ba(value, bits))
 
