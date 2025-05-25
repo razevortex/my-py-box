@@ -232,58 +232,58 @@ class _Datetime(_Type):
 		return f'{self.value.strftime(self._format)}'
 
 class DataObject:
-    __slots__ = ()
-    _type_map = {}
+	__slots__ = ()
+	_type_map = {}
 
-    def __init__(self, *args):
-        for i, slot in enumerate(self.__slots__):
-            super().__setattr__(slot, self._type_map.get(slot))
+	def __init__(self, *args):
+		for i, slot in enumerate(self.__slots__):
+			super().__setattr__(slot, self._type_map.get(slot))
 
-    @classmethod
-    def build(cls, **kwargs):
-        class new(DataObject):
-            __slots__ = tuple(kwargs.keys())
-            _type_map = kwargs
-        return new
-        
-    @classmethod
-    def set_values(cls, **kwargs):
-        cls = cls()
-        for key, value in kwargs.items():
-            if key in cls.__slots__:
-                cls._type_map.get(key).value = value
-        return cls
-    
-    @classmethod
-    def from_bits(cls, bits:Bits):
-        cls = cls()
-        for slot in cls.__slots__:
-            cls.__setattr__(slot, bits)
-        return cls
-                                
-    def __getattribute__(self, key):
-        if isinstance(super().__getattribute__(key), _Type):
-            return super().__getattribute__(key).value
-        else:
-            return super().__getattribute__(key)
+	@classmethod
+	def build(cls, **kwargs):
+		class new(DataObject):
+			__slots__ = tuple(kwargs.keys())
+			_type_map = kwargs
+		return new
+		
+	@classmethod
+	def set_values(cls, **kwargs):
+		cls = cls()
+		for key, value in kwargs.items():
+			if key in cls.__slots__:
+				cls._type_map.get(key).value = value
+		return cls
+	
+	@classmethod
+	def from_bits(cls, bits:Bits):
+		cls = cls()
+		for slot in cls.__slots__:
+			cls.__setattr__(slot, bits)
+		return cls
+								
+	def __getattribute__(self, key):
+		if isinstance(super().__getattribute__(key), _Type):
+			return super().__getattribute__(key).value
+		else:
+			return super().__getattribute__(key)
 
-    def __setattr__(self, key, value):
-        if isinstance(value, _Type):
-            super().__setattr__(key, value)
-        elif isinstance(super().__getattribute__(key), _Type):
-            super().__getattribute__(key).value = value
-        else:
-            super().__setattr__(key, value)
+	def __setattr__(self, key, value):
+		if isinstance(value, _Type):
+			super().__setattr__(key, value)
+		elif isinstance(super().__getattribute__(key), _Type):
+			super().__getattribute__(key).value = value
+		else:
+			super().__setattr__(key, value)
 
-    @property
-    def bits(self):
-        temp = Bits('')
-        for slot in self.__slots__:
-            temp += super().__getattribute__(slot).bits
-        return temp
+	@property
+	def bits(self):
+		temp = Bits('')
+		for slot in self.__slots__:
+			temp += super().__getattribute__(slot).bits
+		return temp
 
-    def __repr__(self):
-        return '\n'.join([f'{self.__getattribute__(slot)}' for slot in self.__slots__])
+	def __repr__(self):
+		return '\n'.join([f'{self.__getattribute__(slot)}' for slot in self.__slots__])
 
 	def __tuple__(self):
 		return tuple([self.__getattribute__(slot) for slot in self.__slots__])
