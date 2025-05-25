@@ -113,3 +113,4 @@ def test(t=1):
 				print(f'n reached after {time() - start} increase testsize')
 				return bench(t, n=n*10)
 		print(f'in t={t} {i} RGB objects read from bits')
+	bench(t)
