@@ -287,7 +287,8 @@ class DataObject:
 
 	def __tuple__(self):
 		return tuple([self.__getattribute__(slot) for slot in self.__slots__])
-		
+
+
 if __name__ == '__main__':
 	aObj = DataObject.build(**{'a': _Int(0, 255), 'b': _Float(0, 1, 5)})
 	temp = aObj.set_values(a=123, b=0.12345)
