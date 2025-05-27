@@ -41,6 +41,7 @@ class _Type:
 		return super().__new__(cls)
 
 	def __init__(self, *args):
+		[self.__setattr__(slot, self.__getattribute__(slot)) for slot in self.__slots__ if slot != 'value_']
 		self.value_ = self._default
 
 	@property
