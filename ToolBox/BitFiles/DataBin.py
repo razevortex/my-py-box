@@ -67,7 +67,7 @@ class _Int(_Type):
 			_range = min_, max_
 			__name__ = f'_Int_{min_}_{max}'
 			def __new__(cls, *args, **kwargs):
-				return cls
+				return cls.__new__()
 			def __init__(self, value:int):
 				self.value_ = value
 		return new
@@ -112,7 +112,7 @@ class _Float(_Type):
 			_range = min_, max_, dec_
 			__name__ = f'_Float_{min_}_{max}_{dec_}'
 			def __new__(cls, *args, **kwargs):
-				return cls
+				return cls.__new__()
 			def __init__(self, value:float):
 				self.value_ = value
 		return new
@@ -187,7 +187,7 @@ class _String(_Type):
 			_type = str
 			__name__ = f'_Int_{min_}_{max}'
 			def __new__(cls, *args, **kwargs):
-				return cls
+				return cls.__new__()
 				
 			def __init__(self, value:str):
 				self.value_ = value
