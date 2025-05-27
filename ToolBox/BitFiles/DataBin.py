@@ -63,8 +63,8 @@ class _Int(_Type):
 	def build(cls, min_:int, max_:int, default=None):
 		class new(_Int):
 			__name__ = f'_Int_{min_}_{max}'
-			def __new__(cls, *args, **kwargs):
-				return super().__new__(*args, **kwargs)
+			def __new__(_cls, *args, **kwargs):
+				return super().__new__(_cls, *args, **kwargs)
 
 		return new(min_, max_, default=default)
 
