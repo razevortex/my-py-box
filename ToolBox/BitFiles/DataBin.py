@@ -41,7 +41,6 @@ class _Type:
 		return super().__new__(cls)
 
 	def __init__(self, *args):
-		[self.__setattr__(slot, self.__getattribute__(slot)) for slot in self.__slots__ if slot != 'value_']
 		self.value_ = self._default
 
 	@property
@@ -147,12 +146,12 @@ class _Bool(_Type):
 
 class _String(_Type):
 	__slots__ = '_type', 'value_', '_charset', '_chars', '_default'
-	def __new__(cls, charset:str, chars:int, default=None):
-		cls._default = default
-		cls._charset = cls._get_dict(charset)
-		cls._chars = chars
-		cls._type = str
-		return super().__new__(cls)
+	def __init__(self, charset:str, chars:int, default=None):
+		self._default = default
+		self._charset = cls._get_dict(charset)
+		self._chars = chars
+		self._type = str
+		self.value_ = self._default
 
 	@staticmethod
 	def _get_dict(charset):
