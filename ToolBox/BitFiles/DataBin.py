@@ -61,7 +61,7 @@ class _Int(_Type):
 
 	@classmethod
 	def build(cls, min_:int, max_:int, default=None):
-		class new(cls):
+		class new(_Int):
 			__name__ = f'_Int_{min_}_{max}'
 			def __new__(cls, *args, **kwargs):
 				return super().__new__(*args, **kwargs)
