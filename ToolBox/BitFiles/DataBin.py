@@ -59,6 +59,19 @@ class _Int(_Type):
 		cls._range = min_, max_
 		return super().__new__(cls)
 
+	@classmethod
+	def build(cls, min_:int, max_:int, default=None):
+		class new(cls):
+			_default = default
+			_type = int
+			_range = min_, max_
+			__name__ = f'_Int_{min_}_{max}'
+			def __new__(cls, *args, **kwargs):
+				return cls
+			def __init__(self, value:int):
+				self.value_ = value
+		return new
+
 	@property
 	def n_bit(self):
 		i = 0
@@ -90,7 +103,20 @@ class _Float(_Type):
 		cls._type = float
 		cls._range = min_, max_, dec_
 		return super().__new__(cls)
-
+		
+	@classmethod
+	def build(cls, min_:int, max_:int, dec_:int, default=None):
+		class new(cls):
+			_default = default
+			_type = int
+			_range = min_, max_, dec_
+			__name__ = f'_Float_{min_}_{max}_{dec_}'
+			def __new__(cls, *args, **kwargs):
+				return cls
+			def __init__(self, value:float):
+				self.value_ = value
+		return new
+		
 	@property
 	def n_bit(self):
 		i = 0
@@ -146,13 +172,26 @@ class _Bool(_Type):
 
 class _String(_Type):
 	__slots__ = '_type', 'value_', '_charset', '_chars', '_default'
-	def __init__(self, charset:str, chars:int, default=None):
-		self._default = default
-		self._charset = cls._get_dict(charset)
-		self._chars = chars
-		self._type = str
-		self.value_ = self._default
+	def __new__(cls, charset:str, chars:int, default=None):
+		cls._default = default
+		cls._charset = cls._get_dict(charset)
+		cls._chars = chars
+		cls._type = str
 
+	@classmethod
+	def build(cls, charset:str, chars:int, default=None):
+		class new(cls):
+			_default = default
+			_charset = cls._get_dict(charset)
+			_chars = chars
+			_type = str
+			__name__ = f'_Int_{min_}_{max}'
+			def __new__(cls, *args, **kwargs):
+				return cls
+				
+			def __init__(self, value:str):
+				self.value_ = value
+		return new
 	@staticmethod
 	def _get_dict(charset):
 		i = 0
