@@ -62,15 +62,11 @@ class _Int(_Type):
 	@classmethod
 	def build(cls, min_:int, max_:int, default=None):
 		class new(cls):
-			_default = default
-			_type = int
-			_range = min_, max_
 			__name__ = f'_Int_{min_}_{max}'
 			def __new__(cls, *args, **kwargs):
 				return super().__new__(*args, **kwargs)
-			def __init__(self, value:int):
-				self.value_ = value
-		return new
+
+		return new(min_, max_, default=default)
 
 	@property
 	def n_bit(self):
