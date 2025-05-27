@@ -59,8 +59,8 @@ class _Int(_Type):
 		cls._range = min_, max_
 		return super().__new__(cls)
 
-	@classmethod
-	def build(cls, min_:int, max_:int, default=None):
+	@staticmethod
+	def build(min_:int, max_:int, default=None):
 		class new(_Int):
 			__name__ = f'_Int_{min_}_{max}'
 			def __new__(_cls, *args, **kwargs):
