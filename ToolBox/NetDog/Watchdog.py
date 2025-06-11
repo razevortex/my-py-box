@@ -4,6 +4,7 @@ from DataHandler import *
 
 
 class Watchdog:
+    mailbot = MailBot('some@gmail.com', 'app_key')
     __slots__ = 'name', 'laziness', 'log_size', 'Log', 'Message', 'comparison'
     
     def __init__(self, **kwargs):
@@ -20,7 +21,7 @@ class Watchdog:
     def run(self):
         if self.Log.get_ping():
             if self.Log.trigger_report(self.laziness):
-                MailBot('wjwautomail@gmail.com', 'ongpiynuwiwefcvz').send(*self.Message.build(**self.msg_keys))
+                self.mailbot.send(*self.Message.build(**self.msg_keys))
                 return True
             return False
 
@@ -84,25 +85,3 @@ class Container(list):
 if __name__ == '__main__':
     test = Container(update_timer=20)
     test.run()
-
-    '''def test_probe():
-        arr = []
-        testprobe = Probe('8.8.8.8', 3)
-        while len(arr) < 2:
-            got = testprobe.ping()
-            if not got is None:
-                arr.append(got)
-        for item in arr:
-            print(item)
-
-    test_probe()'''
-
-    # Example usage:
-    #ip = "8.8.8.8"  # Google's public DNS server
-    #test = sp.run(['ping', '-n', '1', '8.8.8.8'], stdout=sp.PIPE, encoding="ISO-8859-1")
-    #print(test.stdout.decode('cp1252'))
-    #result = sp.check_output(["ping", "-n", "1", "192.20.20.8"]).decode("ISO-8859-1")
-    #print(test)
-    #temp = re.search(r"Zeit=(\d+)ms", result)
-    #print(temp.group(1))
-    
