@@ -18,7 +18,7 @@ class MailBot(object):
 
 
 if __name__ == '__main__':
-    mailbot = MailBot('wjwautomail@gmail.com', 'ongpiynuwiwefcvz')
+    mailbot = MailBot('address@gmail.com', 'appkey')
     msg = 'Subject: Test\n\nBody'
     mailbot.send('razevortex@googlemail.com', msg)
 
